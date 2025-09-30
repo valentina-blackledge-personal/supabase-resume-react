@@ -15,6 +15,7 @@ function App() {
       if (expError) {
         console.error("Error fetching experience:", expError);
       } else {
+        console.log("Fetched experience from Supabase:", expData);
         setExperience(expData);
       }
 
@@ -26,6 +27,7 @@ function App() {
       if (eduError) {
         console.error("Error fetching education:", eduError);
       } else {
+        console.log("Fetched education from Supabase:", eduData); // ✅ Debug
         setEducation(eduData);
       }
     };
@@ -35,6 +37,7 @@ function App() {
 
   return (
     <div style={{ padding: "2rem" }}>
+      {/* ================= EXPERIENCE SECTION ================= */}
       <h1>Experience</h1>
       {experience.length === 0 ? (
         <p>No experience data found.</p>
@@ -59,6 +62,7 @@ function App() {
         ))
       )}
 
+      {/* ================= EDUCATION SECTION ================= */}
       <h1>Education</h1>
       {education.length === 0 ? (
         <p>No education data found.</p>
@@ -72,6 +76,10 @@ function App() {
           </div>
         ))
       )}
+
+      {/* DEBUG JSON OUTPUT */}
+      <h2>DEBUG OUTPUT</h2>
+      <pre>{JSON.stringify(education, null, 2)}</pre>
     </div>
   );
 }
