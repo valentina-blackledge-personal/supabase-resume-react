@@ -15,7 +15,6 @@ function App() {
       if (expError) {
         console.error("Error fetching experience:", expError);
       } else {
-        console.log("Fetched experience from Supabase:", expData);
         setExperience(expData);
       }
 
@@ -27,7 +26,6 @@ function App() {
       if (eduError) {
         console.error("Error fetching education:", eduError);
       } else {
-        console.log("Fetched education from Supabase:", eduData); // ✅ Debug
         setEducation(eduData);
       }
     };
@@ -76,10 +74,6 @@ function App() {
           </div>
         ))
       )}
-
-      {/* DEBUG JSON OUTPUT */}
-      <h2>DEBUG OUTPUT</h2>
-      <pre>{JSON.stringify(education, null, 2)}</pre>
     </div>
   );
 }
