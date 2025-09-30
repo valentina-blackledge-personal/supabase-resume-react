@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
+import "./App.css"; // make sure this is included
 
 function App() {
   const [experience, setExperience] = useState([]);
@@ -7,46 +8,36 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch experience
       const { data: expData, error: expError } = await supabase
         .from("experience")
         .select("*");
 
-      if (expError) {
-        console.error("Error fetching experience:", expError);
-      } else {
-        setExperience(expData);
-      }
+      if (!expError) setExperience(expData);
 
-      // Fetch education
       const { data: eduData, error: eduError } = await supabase
         .from("education")
         .select("*");
 
-      if (eduError) {
-        console.error("Error fetching education:", eduError);
-      } else {
-        setEducation(eduData);
-      }
+      if (!eduError) setEducation(eduData);
     };
 
     fetchData();
   }, []);
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="container">
       {/* ================= EXPERIENCE SECTION ================= */}
       <h1>Experience</h1>
       {experience.length === 0 ? (
         <p>No experience data found.</p>
       ) : (
         experience.map((job) => (
-          <div key={job.id} style={{ marginBottom: "1.5rem" }}>
+          <div key={job.id} className="job-card">
             <h2>
               {job.title} — {job.company}
             </h2>
-            <p>{job.location}</p>
-            <p>
+            <p className="job-meta">
+              {job.location} <br />
               {job.start_date} → {job.end_date || "Present"}
             </p>
             {job.description && (
@@ -66,11 +57,12 @@ function App() {
         <p>No education data found.</p>
       ) : (
         education.map((edu) => (
-          <div key={edu.id} style={{ marginBottom: "1.5rem" }}>
+          <div key={edu.id} className="edu-card">
             <h2>{edu.degree}</h2>
-            <p>{edu.institution}</p>
-            <p>{edu.location}</p>
-            <p>Graduated: {edu.graduation_date}</p>
+            <p className="edu-meta">
+              {edu.institution} — {edu.location} <br />
+              Graduated: {edu.graduation_date}
+            </p>
           </div>
         ))
       )}
