@@ -6,31 +6,35 @@ function App() {
   const [education, setEducation] = useState([]);
 
   useEffect(() => {
-    const fetchExperience = async () => {
-      const { data, error } = await supabase.from("experience").select("*");
-      if (error) {
-        console.error("Error fetching experience:", error);
+    const fetchData = async () => {
+      // Fetch experience
+      const { data: expData, error: expError } = await supabase
+        .from("experience")
+        .select("*");
+
+      if (expError) {
+        console.error("Error fetching experience:", expError);
       } else {
-        setExperience(data);
+        setExperience(expData);
+      }
+
+      // Fetch education
+      const { data: eduData, error: eduError } = await supabase
+        .from("education")
+        .select("*");
+
+      if (eduError) {
+        console.error("Error fetching education:", eduError);
+      } else {
+        setEducation(eduData);
       }
     };
 
-    const fetchEducation = async () => {
-      const { data, error } = await supabase.from("education").select("*");
-      if (error) {
-        console.error("Error fetching education:", error);
-      } else {
-        setEducation(data);
-      }
-    };
-
-    fetchExperience();
-    fetchEducation();
+    fetchData();
   }, []);
 
   return (
     <div style={{ padding: "2rem" }}>
-      {/* EXPERIENCE SECTION */}
       <h1>Experience</h1>
       {experience.length === 0 ? (
         <p>No experience data found.</p>
@@ -55,7 +59,6 @@ function App() {
         ))
       )}
 
-      {/* EDUCATION SECTION */}
       <h1>Education</h1>
       {education.length === 0 ? (
         <p>No education data found.</p>
