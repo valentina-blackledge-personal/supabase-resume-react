@@ -5,17 +5,6 @@ import "./App.css";
 // If you later rename the table to "personal_info", just change this constant:
 const PERSONAL_TABLE = "Valentina Blackledge";
 
-/** Helper: pick the first present value from a list of possible keys */
-function pick(obj, candidates, fallback = "") {
-  for (const k of candidates) {
-    if (obj && Object.prototype.hasOwnProperty.call(obj, k) && obj[k] != null) {
-      // If value is a string, trim it
-      return typeof obj[k] === "string" ? obj[k].trim() : obj[k];
-    }
-  }
-  return fallback;
-}
-
 function App() {
   const [experience, setExperience] = useState([]);
   const [education, setEducation] = useState([]);
@@ -41,7 +30,6 @@ function App() {
       else setEducation(eduData || []);
 
       // ----- Certifications -----
-      // Your column is named "Acquired" (capital A). If you renamed it, adjust below.
       const { data: certData, error: certError } = await supabase
         .from("certifications")
         .select("*")
@@ -50,7 +38,6 @@ function App() {
       else setCertifications(certData || []);
 
       // ----- Personal Info -----
-      // Table name contains a space; supabase-js can handle it, but exact match matters.
       const { data: infoData, error: infoError } = await supabase
         .from(PERSONAL_TABLE)
         .select("*");
@@ -63,29 +50,29 @@ function App() {
 
   return (
     <div className="container">
-{/* ================= PERSONAL INFO (TOP) ================= */}
-<h1 className="section-header">Contact Info</h1>
-{personalInfo.length === 0 ? (
-  <p>No personal info found.</p>
-) : (
-  personalInfo.map((info) => (
-    <div key={info.id} className="card">
-      <h2 className="card-title">Valentina Blackledge</h2>
-      <p>
-        <span className="contact-label">Position Applying For:</span>{" "}
-        <span className="contact-value">{info["Position applying for:"]}</span>
-      </p>
-      <p>
-        <span className="contact-label">Email:</span>{" "}
-        <span className="contact-value">{info["Email:"]}</span>
-      </p>
-      <p>
-        <span className="contact-label">Phone:</span>{" "}
-        <span className="contact-value">{info["Phone:"]}</span>
-      </p>
-    </div>
-  ))
-)}
+      {/* ================= PERSONAL INFO (TOP) ================= */}
+      <h1 className="section-header">Contact Info</h1>
+      {personalInfo.length === 0 ? (
+        <p>No personal info found.</p>
+      ) : (
+        personalInfo.map((info) => (
+          <div key={info.id} className="card">
+            <h2 className="card-title">Valentina Blackledge</h2>
+            <p>
+              <span className="contact-label">Position Applying For:</span>{" "}
+              <span className="contact-value">{info["Position applying for:"]}</span>
+            </p>
+            <p>
+              <span className="contact-label">Email:</span>{" "}
+              <span className="contact-value">{info["Email:"]}</span>
+            </p>
+            <p>
+              <span className="contact-label">Phone:</span>{" "}
+              <span className="contact-value">{info["Phone:"]}</span>
+            </p>
+          </div>
+        ))
+      )}
 
       {/* ================= EXPERIENCE ================= */}
       <h1 className="section-header">Experience</h1>
